@@ -47,7 +47,7 @@ namespace FlordiaMan.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
-                    Special = table.Column<string>(nullable: true),
+                    Bio = table.Column<string>(nullable: true),
                     ImgUrl = table.Column<string>(nullable: true),
                     MatchId = table.Column<int>(nullable: true)
                 },

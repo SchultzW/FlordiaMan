@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlordiaMan.Repo.RepoForTest
 {
-    interface IEventRepo
+    public interface IEventRepo
     {
         IQueryable<Event> Events { get; }
         void AddEvent(Event evnt);

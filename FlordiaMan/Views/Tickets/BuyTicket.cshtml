@@ -1,0 +1,32 @@
+﻿@model Event
+@{
+    ViewData["Title"] = "BuyTIcket";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>BuyTIcket</h1>
+@Model.Name
+
+
+<form method="post">
+    <div>
+        Quantity:
+        <select name="Quantity">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+        </select>
+
+
+    </div>
+
+    <input type="hidden" value="@Model.Id"/>
+    <button type="submit">Purchase</button>
+
+
+</form>
+

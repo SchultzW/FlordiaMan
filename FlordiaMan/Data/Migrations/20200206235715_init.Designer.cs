@@ -100,7 +100,7 @@ namespace FlordiaMan.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Special")
+                    b.Property<string>("Bio")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

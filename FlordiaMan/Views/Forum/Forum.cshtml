@@ -1,0 +1,65 @@
+﻿@model List<Post>
+@{
+    ViewData["Title"] = "Forum";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Forum</h1>
+
+<div>
+    <button asp-action="NewPost">New Post </button>
+</div>
+
+
+@if (Model.Any())
+{
+    @foreach (Post p in Model)
+    {
+        <div class="media" style="border: 1px ridge darkorange; padding: 3px;">
+            <div class="media-left">
+                <img src="~/Images/user-icon-image-placeholder.jpg" class="media-object" style="width: 50px; margin-right: 5px;" />
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">
+                    @p.Op.Name
+                    @p.PostTopic
+                </h4>
+                <p>
+
+                    @p.PostText
+                </p>
+
+                @foreach (Reply reply in p.Replies)
+                {
+                    <div class="media">
+                        <div class="media-left">
+                            <img src="~/Images/user-icon-image-placeholder.jpg" class="media-object" style="width: 50px; margin-right: 5px;" />
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading"></h4>
+                            @reply.User.Name
+
+                            <p>
+
+
+                                @reply.Text
+                            </p>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <a asp-action="AddReply" asp-route-messageId="@p.Id">Send a Reply</a>
+        <br />
+        <br />
+
+    }
+}
+else
+{
+    <h4>Nothing is here...</h4>
+}
+
+
+

@@ -87,7 +87,7 @@
     return {}.toString.call(obj).match(/\s([a-z]+)/i)[1].toLowerCase();
   }
 
-  function getSpecialTransitionEndEvent() {
+  function getBioTransitionEndEvent() {
     return {
       bindType: TRANSITION_END,
       delegateType: TRANSITION_END,
@@ -118,7 +118,7 @@
 
   function setTransitionEndSupport() {
     $.fn.emulateTransitionEnd = transitionEndEmulator;
-    $.event.special[Util.TRANSITION_END] = getSpecialTransitionEndEvent();
+    $.event.Bio[Util.TRANSITION_END] = getBioTransitionEndEvent();
   }
   /**
    * --------------------------------------------------------------------------
@@ -3641,7 +3641,7 @@
 
     /**
      * Modifier used to make sure the reference and its popper stay near each other
-     * without leaving any gap between the two. Especially useful when the arrow is
+     * without leaving any gap between the two. EBioly useful when the arrow is
      * enabled and you want to ensure that it points to its reference element.
      * It cares only about the first axis. You can still have poppers with margin
      * between the popper and its reference element.
@@ -6435,7 +6435,7 @@
         $link.addClass(ClassName$8.ACTIVE); // Set triggered links parents as active
         // With both <ul> and <nav> markup a parent is the previous sibling of any nav ancestor
 
-        $link.parents(Selector$8.NAV_LIST_GROUP).prev(Selector$8.NAV_LINKS + ", " + Selector$8.LIST_ITEMS).addClass(ClassName$8.ACTIVE); // Handle special case when .nav-link is inside .nav-item
+        $link.parents(Selector$8.NAV_LIST_GROUP).prev(Selector$8.NAV_LINKS + ", " + Selector$8.LIST_ITEMS).addClass(ClassName$8.ACTIVE); // Handle Bio case when .nav-link is inside .nav-item
 
         $link.parents(Selector$8.NAV_LIST_GROUP).prev(Selector$8.NAV_ITEMS).children(Selector$8.NAV_LINKS).addClass(ClassName$8.ACTIVE);
       }

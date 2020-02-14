@@ -9,9 +9,10 @@ namespace FlordiaMan.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Special { get; set; }
+        public string Bio { get; set; }//Bio text
         public string ImgUrl { get; set; }
 
-        public IList<News> News { get; set; }
+        private List<News> news = new List<News>();
+        public IList<News> News { get { return news; } }
     }
 }

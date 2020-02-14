@@ -6,21 +6,32 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FlordiaMan.Models;
+using FlordiaMan.Repo.RepoForTest;
 
 namespace FlordiaMan.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        INewsRepo nRepo;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, INewsRepo n)
         {
+            nRepo = n;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View();
+            List<News> news = (from n in nRepo.News
+                               orderby n.Date
+                               select n).OrderByDescending(n => n.Date)
+                          .Take(5)
+                          .ToList();
+
+                        
+
+            return View(news);
         }
 
         public IActionResult Privacy()

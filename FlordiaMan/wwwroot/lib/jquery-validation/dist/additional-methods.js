@@ -262,7 +262,7 @@ $.validator.addMethod( "cifES", function( value, element ) {
  */
 $.validator.addMethod( "cpfBR", function( value ) {
 
-	// Removing special characters from value
+	// Removing Bio characters from value
 	value = value.replace( /([~!@#$%^&*()_+=`{}\[\]\-|\\:;'<>,.\/? ])+/g, "" );
 
 	// Checking value to have 11 digits only
@@ -772,7 +772,7 @@ $.validator.addMethod( "nifES", function( value, element ) {
 		return ( "TRWAGMYFPDXBNJZSQVHLCKE".charAt( value.substring( 8, 0 ) % 23 ) === value.charAt( 8 ) );
 	}
 
-	// Test specials NIF (starts with K, L or M)
+	// Test Bios NIF (starts with K, L or M)
 	if ( /^[KLM]{1}/.test( value ) ) {
 		return ( value[ 8 ] === "TRWAGMYFPDXBNJZSQVHLCKE".charAt( value.substring( 8, 1 ) % 23 ) );
 	}

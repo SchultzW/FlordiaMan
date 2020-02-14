@@ -7,9 +7,10 @@ namespace FlordiaMan.Models
 {
     public class Event
     {
-        //public string Name { get; set; }
+        public string Name { get; set; }
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public IList<Match> Matches { get; set; }
+        private List<Match> matches = new List<Match>();
+        public IList<Match> Matches { get { return matches; } }
     }
 }

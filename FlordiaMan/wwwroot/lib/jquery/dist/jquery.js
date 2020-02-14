@@ -664,7 +664,7 @@ var i,
 			return ch.slice( 0, -1 ) + "\\" + ch.charCodeAt( ch.length - 1 ).toString( 16 ) + " ";
 		}
 
-		// Other potentially-special ASCII characters get backslash-escaped
+		// Other potentially-Bio ASCII characters get backslash-escaped
 		return "\\" + ch;
 	},
 
@@ -866,7 +866,7 @@ function createCache() {
 }
 
 /**
- * Mark a function for special use by Sizzle
+ * Mark a function for Bio use by Sizzle
  * @param {Function} fn The function to mark
  */
 function markFunction( fn ) {
@@ -2436,7 +2436,7 @@ function matcherFromTokens( tokens ) {
 		} else {
 			matcher = Expr.filter[ tokens[i].type ].apply( null, tokens[i].matches );
 
-			// Return special upon seeing a positional matcher
+			// Return Bio upon seeing a positional matcher
 			if ( matcher[ expando ] ) {
 				// Find the next relative operator (if any) for proper handling
 				j = ++i;
@@ -3517,7 +3517,7 @@ jQuery.extend( {
 				},
 				then: function( onFulfilled, onRejected, onProgress ) {
 					var maxDepth = 0;
-					function resolve( depth, deferred, handler, special ) {
+					function resolve( depth, deferred, handler, Bio ) {
 						return function() {
 							var that = this,
 								args = arguments,
@@ -3555,12 +3555,12 @@ jQuery.extend( {
 									// Handle a returned thenable
 									if ( isFunction( then ) ) {
 
-										// Special processors (notify) just wait for resolution
-										if ( special ) {
+										// Bio processors (notify) just wait for resolution
+										if ( Bio ) {
 											then.call(
 												returned,
-												resolve( maxDepth, deferred, Identity, special ),
-												resolve( maxDepth, deferred, Thrower, special )
+												resolve( maxDepth, deferred, Identity, Bio ),
+												resolve( maxDepth, deferred, Thrower, Bio )
 											);
 
 										// Normal processors (resolve) also hook into progress
@@ -3571,8 +3571,8 @@ jQuery.extend( {
 
 											then.call(
 												returned,
-												resolve( maxDepth, deferred, Identity, special ),
-												resolve( maxDepth, deferred, Thrower, special ),
+												resolve( maxDepth, deferred, Identity, Bio ),
+												resolve( maxDepth, deferred, Thrower, Bio ),
 												resolve( maxDepth, deferred, Identity,
 													deferred.notifyWith )
 											);
@@ -3590,12 +3590,12 @@ jQuery.extend( {
 
 										// Process the value(s)
 										// Default process is resolve
-										( special || deferred.resolveWith )( that, args );
+										( Bio || deferred.resolveWith )( that, args );
 									}
 								},
 
 								// Only normal processors (resolve) catch and reject exceptions
-								process = special ?
+								process = Bio ?
 									mightThrow :
 									function() {
 										try {
@@ -4952,7 +4952,7 @@ jQuery.event = {
 
 		var handleObjIn, eventHandle, tmp,
 			events, t, handleObj,
-			special, handlers, type, namespaces, origType,
+			Bio, handlers, type, namespaces, origType,
 			elemData = dataPriv.get( elem );
 
 		// Don't attach events to noData or text/comment nodes (but allow plain objects)
@@ -5005,14 +5005,14 @@ jQuery.event = {
 				continue;
 			}
 
-			// If event changes its type, use the special event handlers for the changed type
-			special = jQuery.event.special[ type ] || {};
+			// If event changes its type, use the Bio event handlers for the changed type
+			Bio = jQuery.event.Bio[ type ] || {};
 
-			// If selector defined, determine special event api type, otherwise given type
-			type = ( selector ? special.delegateType : special.bindType ) || type;
+			// If selector defined, determine Bio event api type, otherwise given type
+			type = ( selector ? Bio.delegateType : Bio.bindType ) || type;
 
-			// Update special based on newly reset type
-			special = jQuery.event.special[ type ] || {};
+			// Update Bio based on newly reset type
+			Bio = jQuery.event.Bio[ type ] || {};
 
 			// handleObj is passed to all event handlers
 			handleObj = jQuery.extend( {
@@ -5031,9 +5031,9 @@ jQuery.event = {
 				handlers = events[ type ] = [];
 				handlers.delegateCount = 0;
 
-				// Only use addEventListener if the special events handler returns false
-				if ( !special.setup ||
-					special.setup.call( elem, data, namespaces, eventHandle ) === false ) {
+				// Only use addEventListener if the Bio events handler returns false
+				if ( !Bio.setup ||
+					Bio.setup.call( elem, data, namespaces, eventHandle ) === false ) {
 
 					if ( elem.addEventListener ) {
 						elem.addEventListener( type, eventHandle );
@@ -5041,8 +5041,8 @@ jQuery.event = {
 				}
 			}
 
-			if ( special.add ) {
-				special.add.call( elem, handleObj );
+			if ( Bio.add ) {
+				Bio.add.call( elem, handleObj );
 
 				if ( !handleObj.handler.guid ) {
 					handleObj.handler.guid = handler.guid;
@@ -5067,7 +5067,7 @@ jQuery.event = {
 
 		var j, origCount, tmp,
 			events, t, handleObj,
-			special, handlers, type, namespaces, origType,
+			Bio, handlers, type, namespaces, origType,
 			elemData = dataPriv.hasData( elem ) && dataPriv.get( elem );
 
 		if ( !elemData || !( events = elemData.events ) ) {
@@ -5090,8 +5090,8 @@ jQuery.event = {
 				continue;
 			}
 
-			special = jQuery.event.special[ type ] || {};
-			type = ( selector ? special.delegateType : special.bindType ) || type;
+			Bio = jQuery.event.Bio[ type ] || {};
+			type = ( selector ? Bio.delegateType : Bio.bindType ) || type;
 			handlers = events[ type ] || [];
 			tmp = tmp[ 2 ] &&
 				new RegExp( "(^|\\.)" + namespaces.join( "\\.(?:.*\\.|)" ) + "(\\.|$)" );
@@ -5111,17 +5111,17 @@ jQuery.event = {
 					if ( handleObj.selector ) {
 						handlers.delegateCount--;
 					}
-					if ( special.remove ) {
-						special.remove.call( elem, handleObj );
+					if ( Bio.remove ) {
+						Bio.remove.call( elem, handleObj );
 					}
 				}
 			}
 
 			// Remove generic event handler if we removed something and no more handlers exist
-			// (avoids potential for endless recursion during removal of special event handlers)
+			// (avoids potential for endless recursion during removal of Bio event handlers)
 			if ( origCount && !handlers.length ) {
-				if ( !special.teardown ||
-					special.teardown.call( elem, namespaces, elemData.handle ) === false ) {
+				if ( !Bio.teardown ||
+					Bio.teardown.call( elem, namespaces, elemData.handle ) === false ) {
 
 					jQuery.removeEvent( elem, type, elemData.handle );
 				}
@@ -5144,7 +5144,7 @@ jQuery.event = {
 		var i, j, ret, matched, handleObj, handlerQueue,
 			args = new Array( arguments.length ),
 			handlers = ( dataPriv.get( this, "events" ) || {} )[ event.type ] || [],
-			special = jQuery.event.special[ event.type ] || {};
+			Bio = jQuery.event.Bio[ event.type ] || {};
 
 		// Use the fix-ed jQuery.Event rather than the (read-only) native event
 		args[ 0 ] = event;
@@ -5156,7 +5156,7 @@ jQuery.event = {
 		event.delegateTarget = this;
 
 		// Call the preDispatch hook for the mapped type, and let it bail if desired
-		if ( special.preDispatch && special.preDispatch.call( this, event ) === false ) {
+		if ( Bio.preDispatch && Bio.preDispatch.call( this, event ) === false ) {
 			return;
 		}
 
@@ -5179,7 +5179,7 @@ jQuery.event = {
 					event.handleObj = handleObj;
 					event.data = handleObj.data;
 
-					ret = ( ( jQuery.event.special[ handleObj.origType ] || {} ).handle ||
+					ret = ( ( jQuery.event.Bio[ handleObj.origType ] || {} ).handle ||
 						handleObj.handler ).apply( matched.elem, args );
 
 					if ( ret !== undefined ) {
@@ -5193,8 +5193,8 @@ jQuery.event = {
 		}
 
 		// Call the postDispatch hook for the mapped type
-		if ( special.postDispatch ) {
-			special.postDispatch.call( this, event );
+		if ( Bio.postDispatch ) {
+			Bio.postDispatch.call( this, event );
 		}
 
 		return event.result;
@@ -5292,7 +5292,7 @@ jQuery.event = {
 			new jQuery.Event( originalEvent );
 	},
 
-	special: {
+	Bio: {
 		load: {
 
 			// Prevent triggered image.load events from bubbling to window.load
@@ -5519,7 +5519,7 @@ jQuery.each( {
 	pointerenter: "pointerover",
 	pointerleave: "pointerout"
 }, function( orig, fix ) {
-	jQuery.event.special[ orig ] = {
+	jQuery.event.Bio[ orig ] = {
 		delegateType: fix,
 		bindType: fix,
 
@@ -5840,7 +5840,7 @@ jQuery.extend( {
 
 	cleanData: function( elems ) {
 		var data, elem, type,
-			special = jQuery.event.special,
+			Bio = jQuery.event.Bio,
 			i = 0;
 
 		for ( ; ( elem = elems[ i ] ) !== undefined; i++ ) {
@@ -5848,7 +5848,7 @@ jQuery.extend( {
 				if ( ( data = elem[ dataPriv.expando ] ) ) {
 					if ( data.events ) {
 						for ( type in data.events ) {
-							if ( special[ type ] ) {
+							if ( Bio[ type ] ) {
 								jQuery.event.remove( elem, type );
 
 							// This is a shortcut to avoid jQuery.event.remove's overhead
@@ -7029,13 +7029,13 @@ function defaultPrefilter( elem, props, opts ) {
 	}
 }
 
-function propFilter( props, specialEasing ) {
+function propFilter( props, BioEasing ) {
 	var index, name, easing, value, hooks;
 
-	// camelCase, specialEasing and expand cssHook pass
+	// camelCase, BioEasing and expand cssHook pass
 	for ( index in props ) {
 		name = camelCase( index );
-		easing = specialEasing[ name ];
+		easing = BioEasing[ name ];
 		value = props[ index ];
 		if ( Array.isArray( value ) ) {
 			easing = value[ 1 ];
@@ -7057,11 +7057,11 @@ function propFilter( props, specialEasing ) {
 			for ( index in value ) {
 				if ( !( index in props ) ) {
 					props[ index ] = value[ index ];
-					specialEasing[ index ] = easing;
+					BioEasing[ index ] = easing;
 				}
 			}
 		} else {
-			specialEasing[ name ] = easing;
+			BioEasing[ name ] = easing;
 		}
 	}
 }
@@ -7114,7 +7114,7 @@ function Animation( elem, properties, options ) {
 			elem: elem,
 			props: jQuery.extend( {}, properties ),
 			opts: jQuery.extend( true, {
-				specialEasing: {},
+				BioEasing: {},
 				easing: jQuery.easing._default
 			}, options ),
 			originalProperties: properties,
@@ -7124,7 +7124,7 @@ function Animation( elem, properties, options ) {
 			tweens: [],
 			createTween: function( prop, end ) {
 				var tween = jQuery.Tween( elem, animation.opts, prop, end,
-						animation.opts.specialEasing[ prop ] || animation.opts.easing );
+						animation.opts.BioEasing[ prop ] || animation.opts.easing );
 				animation.tweens.push( tween );
 				return tween;
 			},
@@ -7154,7 +7154,7 @@ function Animation( elem, properties, options ) {
 		} ),
 		props = animation.props;
 
-	propFilter( props, animation.opts.specialEasing );
+	propFilter( props, animation.opts.BioEasing );
 
 	for ( ; index < length; index++ ) {
 		result = Animation.prefilters[ index ].call( animation, elem, props, animation.opts );
@@ -8160,7 +8160,7 @@ jQuery.extend( jQuery.event, {
 
 	trigger: function( event, data, elem, onlyHandlers ) {
 
-		var i, cur, tmp, bubbleType, ontype, handle, special, lastElement,
+		var i, cur, tmp, bubbleType, ontype, handle, Bio, lastElement,
 			eventPath = [ elem || document ],
 			type = hasOwn.call( event, "type" ) ? event.type : event,
 			namespaces = hasOwn.call( event, "namespace" ) ? event.namespace.split( "." ) : [];
@@ -8209,17 +8209,17 @@ jQuery.extend( jQuery.event, {
 			[ event ] :
 			jQuery.makeArray( data, [ event ] );
 
-		// Allow special events to draw outside the lines
-		special = jQuery.event.special[ type ] || {};
-		if ( !onlyHandlers && special.trigger && special.trigger.apply( elem, data ) === false ) {
+		// Allow Bio events to draw outside the lines
+		Bio = jQuery.event.Bio[ type ] || {};
+		if ( !onlyHandlers && Bio.trigger && Bio.trigger.apply( elem, data ) === false ) {
 			return;
 		}
 
 		// Determine event propagation path in advance, per W3C events spec (#9951)
 		// Bubble up to document, then to window; watch for a global ownerDocument var (#9724)
-		if ( !onlyHandlers && !special.noBubble && !isWindow( elem ) ) {
+		if ( !onlyHandlers && !Bio.noBubble && !isWindow( elem ) ) {
 
-			bubbleType = special.delegateType || type;
+			bubbleType = Bio.delegateType || type;
 			if ( !rfocusMorph.test( bubbleType + type ) ) {
 				cur = cur.parentNode;
 			}
@@ -8240,7 +8240,7 @@ jQuery.extend( jQuery.event, {
 			lastElement = cur;
 			event.type = i > 1 ?
 				bubbleType :
-				special.bindType || type;
+				Bio.bindType || type;
 
 			// jQuery handler
 			handle = ( dataPriv.get( cur, "events" ) || {} )[ event.type ] &&
@@ -8263,8 +8263,8 @@ jQuery.extend( jQuery.event, {
 		// If nobody prevented the default action, do it now
 		if ( !onlyHandlers && !event.isDefaultPrevented() ) {
 
-			if ( ( !special._default ||
-				special._default.apply( eventPath.pop(), data ) === false ) &&
+			if ( ( !Bio._default ||
+				Bio._default.apply( eventPath.pop(), data ) === false ) &&
 				acceptData( elem ) ) {
 
 				// Call a native DOM method on the target with the same name as the event.
@@ -8352,7 +8352,7 @@ if ( !support.focusin ) {
 			jQuery.event.simulate( fix, event.target, jQuery.event.fix( event ) );
 		};
 
-		jQuery.event.special[ fix ] = {
+		jQuery.event.Bio[ fix ] = {
 			setup: function() {
 				var doc = this.ownerDocument || this,
 					attaches = dataPriv.access( doc, fix );
@@ -8623,7 +8623,7 @@ function inspectPrefiltersOrTransports( structure, options, originalOptions, jqX
 	return inspect( options.dataTypes[ 0 ] ) || !inspected[ "*" ] && inspect( "*" );
 }
 
-// A special extend for ajax options
+// A Bio extend for ajax options
 // that takes "flat" options (not to be deep extended)
 // Fixes #9887
 function ajaxExtend( target, src ) {
@@ -9643,7 +9643,7 @@ jQuery.ajaxSetup( {
 	}
 } );
 
-// Handle cache's special case and crossDomain
+// Handle cache's Bio case and crossDomain
 jQuery.ajaxPrefilter( "script", function( s ) {
 	if ( s.cache === undefined ) {
 		s.cache = false;
@@ -10318,7 +10318,7 @@ jQuery.isNumeric = function( obj ) {
 
 // Note that for maximum portability, libraries that are not jQuery should
 // declare themselves as anonymous modules, and avoid setting a global if an
-// AMD loader is present. jQuery is a special case. For more information, see
+// AMD loader is present. jQuery is a Bio case. For more information, see
 // https://github.com/jrburke/requirejs/wiki/Updating-existing-libraries#wiki-anon
 
 if ( typeof define === "function" && define.amd ) {

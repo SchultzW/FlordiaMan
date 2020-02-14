@@ -7,15 +7,18 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FlordiaMan.Data;
 using FlordiaMan.Models;
+using FlordiaMan.Repo.RepoForTest;
 
 namespace FlordiaMan.Controllers
 {
     public class PerformersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private IPerformerRepo pRepo;
 
-        public PerformersController(ApplicationDbContext context)
+        public PerformersController(ApplicationDbContext context,IPerformerRepo p)
         {
+            pRepo = p;
             _context = context;
         }
 
@@ -24,6 +27,11 @@ namespace FlordiaMan.Controllers
         {
             return View(await _context.Performer.ToListAsync());
         }
+
+    
+
+
+
 
         // GET: Performers/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -54,7 +62,7 @@ namespace FlordiaMan.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Special,ImgUrl")] Performer performer)
+        public async Task<IActionResult> Create([Bind("Id,Name,Bio,ImgUrl")] Performer performer)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +94,7 @@ namespace FlordiaMan.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Special,ImgUrl")] Performer performer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Bio,ImgUrl")] Performer performer)
         {
             if (id != performer.Id)
             {
@@ -148,6 +156,26 @@ namespace FlordiaMan.Controllers
         private bool PerformerExists(int id)
         {
             return _context.Performer.Any(e => e.Id == id);
+        }
+        
+        [HttpGet]
+        public IActionResult PerformersHome()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult PerformerDetails(int id)
+        {
+            try
+            {
+                Performer p = pRepo.GetById(id);
+                
+                return View(p);
+            }
+            catch
+            {
+                return View("error");
+            }
         }
     }
 }

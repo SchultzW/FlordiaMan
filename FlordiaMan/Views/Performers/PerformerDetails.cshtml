@@ -1,0 +1,37 @@
+﻿@model Performer
+@{
+    ViewData["Title"] = "PerformerDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>PerformerDetails</h1>
+
+<div class="center">
+    @Model.Name
+</div>
+
+<div class="container clearfix">
+    <div class="block">
+        <div class="row">
+            <div class="span4">
+                <img class="img-left AboutImg" src="@Model.ImgUrl" />
+                
+                <p>@Model.Bio</p>
+
+                <h4>News</h4>
+                @if(Model.News.Any())
+                {
+                    foreach(News n in Model.News)
+                    {
+                        <p>@n.Title</p>
+                        <p>@n.Text</p>
+                    }
+                }
+                else
+                {
+                    @:There is No News
+                }
+            </div>
+        </div>
+    </div>
+</div>

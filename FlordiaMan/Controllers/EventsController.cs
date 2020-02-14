@@ -7,22 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FlordiaMan.Data;
 using FlordiaMan.Models;
+using FlordiaMan.Repo.RepoForTest;
 
 namespace FlordiaMan.Controllers
 {
     public class EventsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public EventsController(ApplicationDbContext context)
+        IEventRepo eRepo;
+        public EventsController(ApplicationDbContext context,IEventRepo e)
         {
+            eRepo = e;
             _context = context;
         }
 
         // GET: Events
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Event.ToListAsync());
+            List<Event> events = (from e in eRepo.Events
+                                  where e.Date.Month.Equals(DateTime.Now.Month)
+                                  select e).ToList();
+            return View(events);
         }
 
         // GET: Events/Details/5
@@ -42,7 +47,19 @@ namespace FlordiaMan.Controllers
 
             return View(@event);
         }
-
+        [HttpGet]
+        public IActionResult EventDetails(int id)
+        {
+            try
+            {
+                Event e = eRepo.GetEventById(id);
+                return View(e);
+            }
+            catch
+            {
+                return View("Error");
+            }
+        }
         // GET: Events/Create
         public IActionResult Create()
         {

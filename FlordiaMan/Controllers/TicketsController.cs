@@ -7,16 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FlordiaMan.Data;
 using FlordiaMan.Models;
+using FlordiaMan.Repo.RepoForTest;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using FlordiaMan.Repo;
 
 namespace FlordiaMan.Controllers
 {
     public class TicketsController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public TicketsController(ApplicationDbContext context)
+        IEventRepo eRepo;
+        ITicketRepo tRepo;
+        private UserManager<AppUser> userManager;
+        public TicketsController(ApplicationDbContext context, IEventRepo e,UserManager<AppUser>uManager, 
+                                    TicketRepo t)
         {
             _context = context;
+            eRepo = e;
+            userManager = uManager;
+            tRepo = t;
+            
         }
 
         // GET: Tickets
@@ -149,5 +160,47 @@ namespace FlordiaMan.Controllers
         {
             return _context.Ticket.Any(e => e.Id == id);
         }
+
+        [HttpGet]
+        public IActionResult BuyTicket(int id)
+        {
+            try
+            {
+                Event e = eRepo.GetEventById(id);
+                return View(e);
+            }
+            catch
+            {
+                return View("Error");
+            }
+        }
+        [HttpPost]
+        public async Task<IActionResult> BuyTicketAsync(int id, int quantity)
+        {
+            try
+            {
+                Event e = eRepo.GetEventById(id);
+                var user = await userManager.GetUserAsync(User);
+                
+
+                Ticket t = new Ticket();
+                t.Event = e;
+                t.Qunatity = quantity;
+                t.Customer = user;
+
+                tRepo.AddTicket(t);
+                return View("Index", "Home");
+            }
+            catch
+            {
+                return View("error");
+            }
+          
+            
+               
+            
+        }
+
+
     }
 }

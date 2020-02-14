@@ -1,0 +1,34 @@
+﻿@model Event
+@{
+    ViewData["Title"] = "EventDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>EventDetails</h1>
+
+<h1>@Model.Name</h1>
+<h2>@Model.Date</h2>
+
+@if (Model.Matches.Any())
+{
+    @for (int i = 0; i >= Model.Matches.Count; i++)
+    {
+        @:Match @i
+        @for (int j = 0; j <= Model.Matches[i].Performers.Count; j++)
+        {
+            <div>@Model.Matches[i].Performers[j].Name;   </div>
+            <br />
+        }
+
+
+    }
+}
+
+
+
+
+<form asp-controller="Tickets" asp-action="BuyTicket" >
+    <input type="hidden" value="@Model.Id" />
+    <button>Buy Tickets</button>
+
+</form>

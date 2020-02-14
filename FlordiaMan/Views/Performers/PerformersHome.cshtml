@@ -1,0 +1,32 @@
+﻿@model List<Performer>
+@{
+    ViewData["Title"] = "PerformersHome";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>PerformersHome</h1>
+@if(Model!=null)
+{
+<div class="grid">
+    @foreach (Performer p in Model)
+    {
+        <article class="card product-item">
+            <a asp-action="PerformerDetails" asp-route-id="@p.Id">
+                <div class="card__image center">
+                    <img src="http://placekitten.com/200/300@* @p.ImgUrl*@" class="" />
+                </div>
+                <div class="card__content">
+                    <p class="product__description freakshowText">
+                        @p.Name
+                    </p>
+                   
+
+
+                </div>
+            </a>
+        </article>
+     }
+</div>
+}
+
+

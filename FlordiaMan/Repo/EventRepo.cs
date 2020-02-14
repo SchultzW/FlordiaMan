@@ -27,17 +27,31 @@ namespace FlordiaMan.Repo
 
         public void AddEvent(Event evnt)
         {
-            throw new NotImplementedException();
+            context.Add(evnt);
+            context.SaveChanges();
         }
 
         public Event GetEventByDate(DateTime date)
         {
-            throw new NotImplementedException();
+            var evnt = (from e in context.Event.Include("Matches")
+                         where e.Date.Equals(date)
+                         select e).ToList();
+            Event myEvent = evnt[0];
+            return myEvent;
+        }
+        public void AddMatch(Match m)
+        {
+          
         }
 
         public Event GetEventById(int id)
         {
-            throw new NotImplementedException();
+            //var evnt = (from e in context.Event
+            //            where e.Id.Equals(id)
+            //            select e).ToList();
+            //Event myEvent = evnt[0];
+            Event myEvent = context.Event.Include("Matches").First(e => e.Id == id);
+            return myEvent;
         }
     }
 }

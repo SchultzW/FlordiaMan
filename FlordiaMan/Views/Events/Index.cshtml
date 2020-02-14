@@ -15,13 +15,18 @@
     // Sunday casted to int gives 0 but that will not work for us, we need 7 to be able to calculate number of empty cells correctly
     int dayOfWeekFirst = ((int)firstDay.DayOfWeek > 0) ? (int)firstDay.DayOfWeek : 7;
     int dayOfWeekLast = ((int)lastDay.DayOfWeek > 0) ? (int)lastDay.DayOfWeek : 7;
-      var getDate = DateTime.Now;
+    var getDate = DateTime.Now;
 
     var firstDayOfTheMonth = new DateTime(getDate.Year, getDate.Month, 1);
     var lastDayOfTheMonth = firstDayOfTheMonth.AddMonths(1).AddDays(-1);
 
     var numberOfDays = Convert.ToInt16(lastDayOfTheMonth.ToString("dd"));
     DateTime startDate = firstDayOfTheMonth.AddDays(-(int)firstDayOfTheMonth.DayOfWeek);
+    List<int> eventNums = new List<int>();
+    foreach (Event e in Model)
+    {
+        eventNums.Add(e.Date.Day);
+    }
 }
 
 <table>
@@ -41,42 +46,36 @@
         <tr class="cal_cell">
             @for (int i = 0; i <= daysInCurrentMonth; i++)
             {
-              
+
                 DateTime date = startDate.AddDays(i);
- 
-                
-                if(i%7==0&&i>0)
+
+
+                if (i % 7 == 0 && i > 0)
                 {
-                    @:</tr><tr class="cal_cell">
+                @:</tr><tr class="cal_cell">
                 }
-                else
-                {
-                    foreach(Event e in Model)
+                    var e = (from evnt in Model
+                            where evnt.Date.Day.Equals(date.Day)
+                            select evnt).ToList();
+
+                    if(!e.Any())
                     {
-                        if(e.Id==date.Day)
-                        {
-                            @** if the day matches the day of an event write link to book *@
-                            <td>
-                                @date.Day<br />
-                                @*@e.Name*@TestName<br/>
-                                <a asp-controller="Ticket" asp-action="BookTicket" asp-route-id="@e.Id">Book Tickets</a>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>@date.Day</td>
-                        }
-
+                        <td>@date.Day</td>
                     }
-
-
-                    @*<td>@date.Day</td>*@
-                }
-                
-
+                    else
+                    {
+                        <td>
+                            @date.Day<br />
+                            @e[0].Name<br />
+                            <a asp-controller="Events" asp-action="EventDetails" asp-route-id="@e[0].Id">Book Tickets</a>
+                        </td>
+                    }
+                      
+                 @*<td>@date.Day</td>*@
             }
         </tr>
     </tbody>
 
 
 </table>
+
