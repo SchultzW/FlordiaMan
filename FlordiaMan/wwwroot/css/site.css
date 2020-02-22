@@ -95,6 +95,10 @@ body {
     margin-top: 50px;
     margin-bottom: auto;
 }
+a {
+    color: inherit;
+    text-decoration: none;
+}
 .card__header,
 .card__content {
     padding: 1rem;
@@ -119,7 +123,12 @@ body {
     margin: 0 0.25rem;
 }
 
-
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: stretch;
+}
 .center {
     display: block;
     margin-left: auto;
@@ -155,6 +164,25 @@ AboutText {
 }
 /* Carousel
 ------------------------------------------------------*/
+
+.item {
+    width: 50%;
+    margin: auto;
+}
+.carousel-inner{
+    height:auto;
+    width:auto;
+}
+.carousel {
+    width: auto;
+    height: auto;
+    margin:auto;
+    
+}
+.txt {
+    color: navajowhite;
+    text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+}
 /*carousel-body {
     background-color: black;
 }*/

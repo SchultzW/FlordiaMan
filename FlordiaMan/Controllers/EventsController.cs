@@ -22,6 +22,16 @@ namespace FlordiaMan.Controllers
         }
 
         // GET: Events
+        public async Task<IActionResult> ListEvent()
+        {
+            return View(await _context.Event.ToListAsync());
+        }
+
+
+
+
+
+
         public IActionResult Index()
         {
             List<Event> events = (from e in eRepo.Events

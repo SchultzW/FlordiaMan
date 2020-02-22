@@ -34,8 +34,8 @@ namespace FlordiaMan
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
             //services.AddIdentityCore<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //   .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -43,8 +43,8 @@ namespace FlordiaMan
             //services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            //services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
-            //    .AddDefaultTokenProviders();
+            services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             //services.AddIdentity<AppUser, IdentityRole>(opts =>
             //{
@@ -65,7 +65,7 @@ namespace FlordiaMan
                 Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddMvc();
-            
+
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddTransient<IEventRepo, EventRepo>();
