@@ -14,8 +14,8 @@ namespace FlordiaMan.Data
             {
                 News n = new News();
                 //n.Id = 1;
-                n.Text = "A new Champion";
-                n.Title = "At last weekends Croc n Awe event Cletus became our new Champion!";
+                n.Text = "At last weekends Croc n Awe event Cletus became our new Champion!";
+                n.Title = "A New Champion";
                 n.Date = DateTime.Now;
                 context.SaveChanges();
 

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FlordiaMan.Data;
 using FlordiaMan.Models;
 using FlordiaMan.Repo.RepoForTest;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FlordiaMan.Controllers
 {
@@ -22,6 +23,7 @@ namespace FlordiaMan.Controllers
         }
 
         // GET: Events
+        [AllowAnonymous]
         public async Task<IActionResult> ListEvent()
         {
             return View(await _context.Event.ToListAsync());
@@ -31,7 +33,7 @@ namespace FlordiaMan.Controllers
 
 
 
-
+        [AllowAnonymous]
         public IActionResult Index()
         {
             List<Event> events = (from e in eRepo.Events
@@ -41,6 +43,7 @@ namespace FlordiaMan.Controllers
         }
 
         // GET: Events/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,6 +61,7 @@ namespace FlordiaMan.Controllers
             return View(@event);
         }
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult EventDetails(int id)
         {
             try

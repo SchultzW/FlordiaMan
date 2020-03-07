@@ -161,7 +161,8 @@ namespace FlordiaMan.Controllers
         [HttpGet]
         public IActionResult PerformersHome()
         {
-            return View();
+            var pList = (from p in pRepo.Performers select p).ToList();
+            return View(pList);
         }
         [HttpGet]
         public IActionResult PerformerDetails(int id)

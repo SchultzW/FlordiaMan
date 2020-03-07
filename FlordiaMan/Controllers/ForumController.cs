@@ -9,23 +9,26 @@ using FlordiaMan.Data;
 using FlordiaMan.Models;
 using FlordiaMan.Repo.RepoForTest;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FlordiaMan.Controllers
 {
+    [Authorize(Roles = "Admin, User")]
     public class ForumController : Controller
     {
         private readonly ApplicationDbContext _context;
         IPostRepo pRepo;
-        private readonly UserManager<AppUser> usermanager;
+        private readonly UserManager<AppUser> userManager;
 
-        public ForumController(ApplicationDbContext context,IPostRepo p,UserManager<AppUser>usrMgr)
+        public ForumController(IPostRepo p,UserManager<AppUser>usrMgr)
         {
-            usermanager = usrMgr;
+            userManager = usrMgr;
             pRepo = p;
-            _context = context;
+            
         }
 
         // GET: Posts
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Post.ToListAsync());
@@ -155,12 +158,12 @@ namespace FlordiaMan.Controllers
         {
             return _context.Post.Any(e => e.Id == id);
         }
-
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult Forum()
         {
             List<Post> posts = (from p in pRepo.Posts
-                                select p).Include("Reply").OrderBy(p => p.Id).ToList();
+                                select p).Include("Replies").OrderBy(p => p.Id).ToList();
 
 
             return View(posts);
@@ -178,7 +181,7 @@ namespace FlordiaMan.Controllers
             try
             {
                 
-                AppUser user = await usermanager.FindByNameAsync(User.Identity.Name);
+                AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
                 pRepo.AddReply(text, id, user);
                 return View("Forum");
 
@@ -190,5 +193,23 @@ namespace FlordiaMan.Controllers
                 return View("Error");
             }
        }
+       [HttpGet]
+       public IActionResult AddPost()
+       {
+            return View();
+       }
+       [HttpPost]
+       public async Task<IActionResult> AddPostAsync(String postText, String postTopic)
+       {
+            Post p = new Post
+            {
+                PostTopic = postTopic,
+                PostText = postText,
+                Op = await userManager.GetUserAsync(User)
+            };
+            pRepo.AddPost(p);
+            return View("Forum");
+       }
+        
     }
 }

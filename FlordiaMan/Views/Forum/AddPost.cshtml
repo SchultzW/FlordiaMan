@@ -1,4 +1,4 @@
-﻿
+﻿@model Post
 @{
     ViewData["Title"] = "AddPost";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,3 +6,31 @@
 
 <h1>AddPost</h1>
 
+<form asp-action="AddPost" method="post">
+    <div asp-validation-summary="All"></div>
+    @*<div class="form-group">
+            <label asp-for="Sender.FirstName">First Name:</label>
+            <input class="form-control col-6" name="firstName" asp-for="Sender.FirstName" /><br />
+        </div>
+        <div class="form-group">
+            <label asp-for="Sender.LastName">Last Name:</label>
+            <input class="form-control col-6" name="lastName" asp-for="Sender.LastName" /><br />
+        </div>
+        <div class="form-group">
+            <label asp-for="Sender.Email">Email:</label>
+            <input class="form-control col-6" name="email" asp-for="Sender.Email" /><br />
+        </div>*@
+    <div class="form-group">
+        <label asp-for="PostTopic">Title:</label>
+        <div><span asp-validation-for="PostTopic"></span></div>
+        <input class="form-control" col-6 asp-for="PostTopic" />
+        
+    </div>  <div class="form-group">
+        <label asp-for="PostText"></label>
+        <div><span asp-validation-for="PostText"></span></div>        
+        <textarea class="form-control col-6" asp-for="PostText"></textarea><br />
+    </div>
+    <div class="form-group">
+        <button class="btn btn-default" type="submit">Send Message</button>
+    </div>
+</form>

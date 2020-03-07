@@ -11,9 +11,13 @@ using FlordiaMan.Repo.RepoForTest;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using FlordiaMan.Repo;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FlordiaMan.Controllers
 {
+    [Authorize(Roles = "Admin, User")]
     public class TicketsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -199,6 +203,31 @@ namespace FlordiaMan.Controllers
             
                
             
+        }
+        public async Task<bool> CreateEmailAsync(AppUser user, Event e, int quantity)
+        {
+            try
+            {
+                var apiKey = System.Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
+                var client = new SendGridClient(apiKey);
+                var msg = ("<p>LETS GET READY TO RUMBLE</p>" +
+                        "<p>You have booked " + quantity + " tickets to " + e.Name + ". Start time is " + e.Date + "</p>");
+                var mail = new SendGridMessage()
+                {
+                    From = new EmailAddress("Bookings@UFGRU.com"),
+                    Subject = "Ticket Booking",
+                    HtmlContent = msg
+                };
+                mail.AddTo(user.Email, user.Name);
+                var response = await client.SendEmailAsync(mail);
+            }
+            catch
+            {
+                return false;
+            }
+            return false;
+
+           
         }
 
 

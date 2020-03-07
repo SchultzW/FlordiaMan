@@ -12,11 +12,15 @@ namespace FlordiaMan.Repo
     public class PostRepo : IPostRepo
     {
         private ApplicationDbContext context;
+        public PostRepo(ApplicationDbContext dbcontext)
+        {
+            context = dbcontext;
+        }
         public IQueryable<Post> Posts
         {
             get
             {
-                return context.Post.Include("Reply");
+                return context.Post;
             }
         }
 

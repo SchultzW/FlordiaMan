@@ -34,28 +34,11 @@ namespace FlordiaMan
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            //services.AddIdentityCore<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //   .AddEntityFrameworkStores<ApplicationDbContext>();
-
-            //services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+ 
 
             services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services.AddIdentity<AppUser, IdentityRole>(opts =>
-            //{
-            //    opts.User.RequireUniqueEmail = true;
-            //    //opts.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyz";
-            //    opts.Password.RequiredLength = 6;
-            //    opts.Password.RequireNonAlphanumeric = false;
-            //    opts.Password.RequireLowercase = false;
-            //    opts.Password.RequireUppercase = false;
-            //    opts.Password.RequireDigit = false;
-            //}).AddEntityFrameworkStores<ApplicationDbContext>();
 
 
 
@@ -73,6 +56,8 @@ namespace FlordiaMan
             services.AddTransient<IPerformerRepo, PerformerRepo>();
             services.AddTransient<ITicketRepo, TicketRepo>();
             services.AddTransient<IPostRepo, PostRepo>();
+            services.ConfigureApplicationCookie(opts =>
+                        opts.LoginPath = "/Identity/Account/Login");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
