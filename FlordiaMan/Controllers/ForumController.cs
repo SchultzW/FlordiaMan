@@ -163,7 +163,7 @@ namespace FlordiaMan.Controllers
         public IActionResult Forum()
         {
             List<Post> posts = (from p in pRepo.Posts
-                                select p).Include("Replies").OrderBy(p => p.Id).ToList();
+                                select p).Include("Op").Include("Replies").OrderBy(p => p.Id).ToList();
 
 
             return View(posts);
@@ -172,7 +172,7 @@ namespace FlordiaMan.Controllers
        [HttpGet]
        public IActionResult AddReply(int id)
        {
-            ViewBag["id"] = id;
+            ViewBag.id = id;
 ;            return View();
        }
        [HttpPost]
@@ -208,7 +208,7 @@ namespace FlordiaMan.Controllers
                 Op = await userManager.GetUserAsync(User)
             };
             pRepo.AddPost(p);
-            return View("Forum");
+            return View();
        }
         
     }

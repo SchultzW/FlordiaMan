@@ -19,11 +19,11 @@
     {
         <div class="media" style="border: 1px ridge darkorange; padding: 3px;">
             <div class="media-left">
-                <img src="~/Images/user-icon-image-placeholder.jpg" class="media-object" style="width: 50px; margin-right: 5px;" />
+                <img src="~/img/user-icon-image-placeholder.jpg" class="media-object" style="width: 50px; margin-right: 5px;" />
             </div>
             <div class="media-body">
                 <h4 class="media-heading">
-                    @p.Op.Name
+                    @p.Op.UserName
                     @p.PostTopic
                 </h4>
                 <p>
@@ -39,7 +39,7 @@
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading"></h4>
-                            @reply.User.Name
+                            @reply.User.UserName
 
                             <p>
 
@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <a asp-action="AddReply" asp-route-messageId="@p.Id">Send a Reply</a>
+        <a asp-action="AddReply" asp-route-Id="@p.Id">Send a Reply</a>
         <br />
         <br />
 

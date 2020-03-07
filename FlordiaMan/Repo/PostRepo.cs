@@ -37,7 +37,9 @@ namespace FlordiaMan.Repo
             Reply r = new Reply();
             r.Text = text;
             r.User = user;
-            context.Post.Find(id).Replies.Add(r);
+            //context.Post.Find(id).Replies.Add(r);
+            var p = context.Post.Find(id);
+            p.Replies.Add(r);
             context.SaveChanges();
             
         }
