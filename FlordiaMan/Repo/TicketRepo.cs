@@ -12,6 +12,10 @@ namespace FlordiaMan.Repo
     public class TicketRepo : ITicketRepo
     {
         ApplicationDbContext context;
+        public TicketRepo(ApplicationDbContext dbContext)
+        {
+            context = dbContext;
+        }
         public IQueryable<Ticket> Tickets
         {
             get

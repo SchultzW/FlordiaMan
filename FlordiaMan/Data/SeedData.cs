@@ -21,21 +21,22 @@ namespace FlordiaMan.Data
 
                 Performer p = new Performer();
                 //p.Id = 1;
-                p.ImgUrl = "~img/skeeter";
+                p.ImgUrl = "~/img/skeeter.jpg";
                 p.Bio = "Current UFGRU Chamption";
                 p.Name = "Cletus";
                 p.News.Add(n);
                 context.Performer.Add(p);
                 context.SaveChanges();
 
-                p.ImgUrl = "~img/bros";
-                p.Bio = "Tag team extrodinar from deep in the panhandle";
-                p.Name = "The Horse Boys";
+                Performer p2 = new Performer();
+                p2.ImgUrl = "~img/bros.jpg";
+                p2.Bio = "Tag team extrodinar from deep in the panhandle";
+                p2.Name = "The Horse Boys";
                 
                 context.Performer.Add(p);
                 context.SaveChanges();
-
-                p.ImgUrl = "~img/BigBessie";
+                Performer p3 = new Performer();
+                p.ImgUrl = "~img/BigBessie.jpg";
                 p.Bio = "Fan favorite undefeated gator";
                 p.Name = "Big Bessie";
                 

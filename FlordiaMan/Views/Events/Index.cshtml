@@ -8,6 +8,7 @@
 
 @{
     int currentMonth = DateTime.Now.Month;
+    string month = DateTime.Now.Month.ToString("MMMM");
     int currentYear = DateTime.Now.Year;
     DateTime firstDay = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
     int daysInCurrentMonth = DateTime.DaysInMonth(firstDay.Year, firstDay.Month);
@@ -31,7 +32,7 @@
 
 <table>
     <thead>
-        <tr>@currentMonth</tr>
+        <tr>@month</tr>
         <tr class="cal_cell">
             <th>Sunday</th>
             <th>Monday</th>

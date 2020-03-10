@@ -11,7 +11,12 @@ namespace FlordiaMan.Repo
 {
     public class PerformerRepo : IPerformerRepo
     {
+        
         private ApplicationDbContext context;
+        public PerformerRepo(ApplicationDbContext dbContext)
+        {
+            context = dbContext;
+        }
         public IQueryable<Performer> Performers
         {
             get

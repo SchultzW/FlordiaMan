@@ -1,0 +1,39 @@
+﻿@model IEnumerable<FlordiaMan.Models.Event>
+
+@{
+    ViewData["Title"] = "EventBuilder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>EventBuilder</h1>
+
+<div>
+    Choose an Event or <a asp-controller="Events" asp-action="ListEvent">Create a new one</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    <a asp-action="Build" asp-route-id="@item.Id">Build the Event</a> 
+                </td>
+            </tr>
+        }
+</table>

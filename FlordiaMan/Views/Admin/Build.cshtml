@@ -1,0 +1,27 @@
+﻿@model Event
+@{
+    ViewData["Title"] = "Build";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Event"] = Model.Id;
+}
+
+<h1>Build</h1>
+
+<table class="table">
+    <tbody>
+        @foreach (var item in Model.Matches)
+        {
+            <tr>
+                <td>@item.Placement</td>
+                <td>
+                    @item.Performers[0];
+                </td>
+                <td>
+                    @item.Performers[1];
+                </td>
+            </tr>
+        }
+</table>
+<a asp-action="MatchMake">
+    <button> Add a Match</button>
+</a>

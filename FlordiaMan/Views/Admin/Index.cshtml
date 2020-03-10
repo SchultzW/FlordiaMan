@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Admin Home</h1>
 
 <div class="grid">
     <article class="card product-item">
@@ -37,12 +37,29 @@
             </div>
             <div class="card__content">
                 <p class="product__description">
-                   
+
                 </p>
             </div>
         </a>
     </article>
-    </div>
+    <article class="card product-item">
+        <a asp-controller="Admin" asp-action="EventBuilder">
+            <header class="card__header ">
+                <h1 class="product__title center ">
+                    Event Builder
+                </h1>
+            </header>
+            <div class="card__image center">
+                <img src="http://placekitten.com/200/300" class="" />
+            </div>
+            <div class="card__content">
+                <p class="product__description">
+
+                </p>
+            </div>
+        </a>
+    </article>
+</div>
 
 <div class="grid">
     <article class="card product-item">
@@ -64,10 +81,28 @@
     </article>
 
     <article class="card product-item">
-        <a asp-controller="Product" asp-action="Products" asp-route-tag="Home">
+        <a asp-controller="Admin" asp-action="UserIndex">
             <header class="card__header ">
                 <h1 class="product__title center ">
                     Users
+                </h1>
+            </header>
+            <div class="card__image center">
+                <img src="http://placekitten.com/200/300" class="" />
+            </div>
+            <div class="card__content">
+                <p class="product__description">
+
+                </p>
+            </div>
+        </a>
+    </article>
+
+    <article class="card product-item">
+        <a asp-controller="Matches" asp-action="index">
+            <header class="card__header ">
+                <h1 class="product__title center ">
+                    Matches
                 </h1>
             </header>
             <div class="card__image center">

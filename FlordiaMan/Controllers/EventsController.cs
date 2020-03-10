@@ -85,15 +85,15 @@ namespace FlordiaMan.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date")] Event @event)
+        public async Task<IActionResult> Create([Bind("Id,Date,Name")] Event @event)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(@event);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ListEvent");
             }
-            return View(@event);
+            return View("ListEvent");
         }
 
         // GET: Events/Edit/5
@@ -142,9 +142,9 @@ namespace FlordiaMan.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("ListEvent");
             }
-            return View(@event);
+            return View("ListEvent");
         }
 
         // GET: Events/Delete/5
@@ -173,7 +173,7 @@ namespace FlordiaMan.Controllers
             var @event = await _context.Event.FindAsync(id);
             _context.Event.Remove(@event);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("ListEvent");
         }
 
         private bool EventExists(int id)

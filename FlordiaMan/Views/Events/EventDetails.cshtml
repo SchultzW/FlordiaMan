@@ -27,8 +27,8 @@
 
 
 
-<form asp-controller="Tickets" asp-action="BuyTicket" >
+<a asp-controller="Tickets" asp-action="BuyTicket" asp-route-id="@Model.Id" >
     <input type="hidden" value="@Model.Id" />
     <button>Buy Tickets</button>
 
-</form>
+</a>

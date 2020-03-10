@@ -24,13 +24,13 @@ namespace FlordiaMan.Controllers
         IEventRepo eRepo;
         ITicketRepo tRepo;
         private UserManager<AppUser> userManager;
-        public TicketsController(ApplicationDbContext context, IEventRepo e,UserManager<AppUser>uManager, 
-                                    TicketRepo t)
+        public TicketsController(IEventRepo e,UserManager<AppUser>uManager, 
+                                    ITicketRepo t)
         {
-            _context = context;
+            tRepo = t;
             eRepo = e;
             userManager = uManager;
-            tRepo = t;
+          
             
         }
 
@@ -193,7 +193,8 @@ namespace FlordiaMan.Controllers
                 t.Customer = user;
 
                 tRepo.AddTicket(t);
-                return View("Index", "Home");
+                await CreateEmailAsync(user, e, quantity);
+                return View("Confirmation");
             }
             catch
             {
@@ -220,6 +221,7 @@ namespace FlordiaMan.Controllers
                 };
                 mail.AddTo(user.Email, user.Name);
                 var response = await client.SendEmailAsync(mail);
+                return true;
             }
             catch
             {

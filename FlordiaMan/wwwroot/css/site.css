@@ -2,11 +2,17 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+    color: #ff4a83;
 }
 
+.navbar {
+    overflow: hidden;
+    background-color: #3f2e56;
+    font-family: RoadRage;
+}
 
 
 /* Provide sufficient contrast against white background */
@@ -20,10 +26,10 @@ a {
   border-color: #1861ac;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.nav-pills .nav-link.active, .nav-pills .show .nav-link {
+    color: #ff4a83;
+    background-color: #ff4a83;
+    border-color: black;
 }
 
 /* Sticky footer styles
@@ -61,9 +67,9 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-  background-color:white;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-color: #02394A;
 }
 .footer {
     position: absolute;
@@ -180,8 +186,9 @@ AboutText {
     
 }
 .txt {
-    color: navajowhite;
+    color: #ff4a83;
     text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+    font-family: 'Road Rage'
 }
 /*carousel-body {
     background-color: black;
@@ -226,3 +233,40 @@ AboutText {
 .carousel.vertical .active.right {
     top: 100%;
 }*/
+/****Color Themes******************/
+.sasquatchSocks{
+    color:#ff4a83 !important;
+}
+.warmBlack {
+    color: #02394A !important;
+}
+/*Greenish*/
+.juneBud {
+    color: #Bodb43 !important;
+}
+/*grayish  */
+.darkVanilla {
+    color: #c0bda5 !important;
+}
+.ksuPurple {
+    color: #631a86 !important;
+}
+.darkCerulean {
+    color: #083d77 !important;
+}
+@font-face{
+    font-family:"RoadRage";
+    src:url('../font/Road_Rage.woff') format('woff');
+}
+.RoadRage{
+    font-family:RoadRage;
+}
+.japaneseViolet {
+    color: #3f2e56;
+}
+.footer-color {
+    background-color: #3f2e56;
+}
+.text{
+    color:black;
+}

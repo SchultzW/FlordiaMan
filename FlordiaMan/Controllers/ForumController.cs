@@ -183,7 +183,7 @@ namespace FlordiaMan.Controllers
                 
                 AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
                 pRepo.AddReply(text, id, user);
-                return View("Forum");
+                return View();
 
                 
               

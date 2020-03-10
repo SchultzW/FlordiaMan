@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FlordiaMan.Data;
 using FlordiaMan.Models;
 
-namespace FlordiaMan.Controllers
+namespace FlordiaMan.Views
 {
     public class MatchesController : Controller
     {

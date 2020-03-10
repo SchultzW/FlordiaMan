@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlordiaMan.Models;
+using FlordiaMan.Repo.RepoForTest;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,16 +17,19 @@ namespace FlordiaMan.Controllers
         private IUserValidator<AppUser> userValidator;
         private IPasswordValidator<AppUser> passwordValidator;
         private IPasswordHasher<AppUser> passwordHasher;
-       
+        private IEventRepo eRepo;
+        private IPerformerRepo pRepo;
+
         private SignInManager<AppUser> signInManager;
 
         public AdminController(UserManager<AppUser> usrMgr,
                IUserValidator<AppUser> userValid,
-               IPasswordValidator<AppUser> passValid,
-               IPasswordHasher<AppUser> passwordHash, SignInManager<AppUser> signInMgr)
+               IPasswordValidator<AppUser> passValid,IPerformerRepo performerRepo,
+               IPasswordHasher<AppUser> passwordHash, SignInManager<AppUser> signInMgr,IEventRepo eventRepo)
         {
+            pRepo = performerRepo;
             signInManager = signInMgr;
-          
+            eRepo = eventRepo;
             userManager = usrMgr;
             userValidator = userValid;
             passwordValidator = passValid;
@@ -55,7 +59,7 @@ namespace FlordiaMan.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser(AppUser model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 AppUser user = new AppUser
                 {
@@ -80,6 +84,39 @@ namespace FlordiaMan.Controllers
             return View(model);
 
 
+        }
+        ///MatchMaker 
+        [HttpGet]
+        public IActionResult Build(int id)
+        {
+
+            var events = (from myEvent in eRepo.Events
+                    where myEvent.Id == id
+                    select myEvent).ToList();
+            Event e = events[0];
+            e.SortMatch();
+            return View(e);
+        }
+        [HttpGet]
+        public IActionResult EventBuilder()
+        {
+            List<Event> events = (from e in eRepo.Events
+                                  select e).ToList();
+            return View(events);
+        }
+        [HttpGet]
+        public IActionResult MatchMake()
+        {
+            List<Performer> p = (from performer in pRepo.Performers
+                                 select performer).ToList();
+            return View(p); 
+        }
+        [HttpPost]
+        public IActionResult MatchMake(int performer1, int performer2, int placement)
+        {
+
+
+            return View();
         }
      
     }

@@ -1,0 +1,47 @@
+﻿@model List<Performer>
+@{
+    ViewData["Title"] = "MatchMake";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>MatchMake</h1>
+
+
+<form method="post">
+    <table class="table">
+        <tbody>
+            
+            <tr>
+                <td>
+                    <select name="performer1">
+                        @foreach (Performer p in Model)
+                        {
+                            <option value="@p.Id">@p.Name</option>
+                        }
+
+
+                    </select>
+                </td>
+                <td>VS.</td>
+                <td>
+                    <select name="performer2">
+                        @foreach (Performer p1 in Model)
+                        {
+                            <option value="@p1.Id">@p1.Name</option>
+                        }
+
+
+                    </select>
+                </td>
+            </tr>
+            
+    </table>
+
+
+    <label>
+        Match Number:
+    </label>
+    <input name="placement" for="placement" />
+    <br />
+    <button type="submit">Add Match</button>
+</form>
