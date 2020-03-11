@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FlordiaMan.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace FlordiaMan.Data
 {
@@ -36,9 +37,9 @@ namespace FlordiaMan.Data
                 context.Performer.Add(p);
                 context.SaveChanges();
                 Performer p3 = new Performer();
-                p.ImgUrl = "~img/BigBessie.jpg";
-                p.Bio = "Fan favorite undefeated gator";
-                p.Name = "Big Bessie";
+                p3.ImgUrl = "~img/BigBessie.jpg";
+                p3.Bio = "Fan favorite undefeated gator";
+                p3.Name = "Big Bessie";
                 
                 context.Performer.Add(p);
                 context.SaveChanges();
@@ -46,18 +47,25 @@ namespace FlordiaMan.Data
                 Match m = new Match();
                 //m.Id = 1;
                 m.Performers.Add(p);
+                m.Performers.Add(p2);
+                m.Placement = 1;
                 m.Winner = p;
                 context.SaveChanges();
 
                 Event myEvent = new Event();
-                //myEvent.Id = 1;
-                myEvent.Name = "test";
+                myEvent.Date = DateTime.Parse("3/4/2020");
+                myEvent.Name = "Croc'N Awe";
+                
                 
                 myEvent.Matches.Add(m);
                 myEvent.Date = DateTime.Now;
                 context.Event.Add(myEvent);
                 context.SaveChanges();
 
+                Event e2 = new Event();
+                e2.Date = DateTime.Parse("3/25/2020");
+                e2.Name = "Slam Jam 2020";
+                context.Event.Add(e2);
                 
             }
            

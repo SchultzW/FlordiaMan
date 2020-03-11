@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FlordiaMan.Models;
 using FlordiaMan.Repo.RepoForTest;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FlordiaMan.Controllers
 {
@@ -14,11 +14,13 @@ namespace FlordiaMan.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         INewsRepo nRepo;
+        private UserManager<AppUser> userManager;
 
-        public HomeController(ILogger<HomeController> logger, INewsRepo n)
+        public HomeController(ILogger<HomeController> logger, INewsRepo n, UserManager<AppUser> uManager)
         {
             nRepo = n;
             _logger = logger;
+            userManager = uManager;
         }
 
         public IActionResult Index()
@@ -43,6 +45,14 @@ namespace FlordiaMan.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        [Authorize(Roles = "Admin, User")]
+        [HttpGet]
+        public async System.Threading.Tasks.Task<IActionResult> ProfileAsync()
+        {
+            AppUser user = await userManager.GetUserAsync(User);
+
+            return View(user);
         }
     }
 }

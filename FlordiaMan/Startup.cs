@@ -48,7 +48,7 @@ namespace FlordiaMan
                 Configuration["ConnectionStrings:DefaultConnection"]));
 
             services.AddMvc();
-
+            services.AddSingleton<IConfiguration>(Configuration);
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddTransient<IEventRepo, EventRepo>();
@@ -93,6 +93,7 @@ namespace FlordiaMan
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+            //context.Database.Migrate();
             SeedData.Seed(context);
             //ApplicationDbContext.CreateAccounts(app.ApplicationServices, Configuration).Wait();
         }

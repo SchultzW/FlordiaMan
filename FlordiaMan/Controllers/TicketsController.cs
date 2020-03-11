@@ -14,6 +14,7 @@ using FlordiaMan.Repo;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace FlordiaMan.Controllers
 {
@@ -23,15 +24,17 @@ namespace FlordiaMan.Controllers
         private readonly ApplicationDbContext _context;
         IEventRepo eRepo;
         ITicketRepo tRepo;
+        private readonly IConfiguration _configuration;
         private UserManager<AppUser> userManager;
         public TicketsController(IEventRepo e,UserManager<AppUser>uManager, 
-                                    ITicketRepo t)
+                                    ITicketRepo t, IConfiguration configuration)
         {
             tRepo = t;
             eRepo = e;
             userManager = uManager;
-          
-            
+            _configuration = configuration;
+
+
         }
 
         // GET: Tickets
@@ -194,7 +197,7 @@ namespace FlordiaMan.Controllers
 
                 tRepo.AddTicket(t);
                 await CreateEmailAsync(user, e, quantity);
-                return View("Confirmation");
+                return View("Confirm");
             }
             catch
             {
@@ -209,7 +212,7 @@ namespace FlordiaMan.Controllers
         {
             try
             {
-                var apiKey = System.Environment.GetEnvironmentVariable("SENDGRID_APIKEY");
+                var apiKey = _configuration.GetSection("SENDGRID_API_KEY").Value;
                 var client = new SendGridClient(apiKey);
                 var msg = ("<p>LETS GET READY TO RUMBLE</p>" +
                         "<p>You have booked " + quantity + " tickets to " + e.Name + ". Start time is " + e.Date + "</p>");
@@ -219,6 +222,7 @@ namespace FlordiaMan.Controllers
                     Subject = "Ticket Booking",
                     HtmlContent = msg
                 };
+                mail.SetOpenTracking(true);
                 mail.AddTo(user.Email, user.Name);
                 var response = await client.SendEmailAsync(mail);
                 return true;

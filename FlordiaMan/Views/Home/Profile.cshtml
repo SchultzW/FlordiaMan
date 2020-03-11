@@ -1,0 +1,55 @@
+﻿@model AppUser
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Your Profile</h1>
+<div>
+    <div>
+        Email:@Model.Email
+    </div>
+    <div class="sasquatchSocks">
+        Favorite Wrestlers
+    </div>
+    @if (Model.Favorites.Any())
+    {
+        <ul>
+            @foreach (Performer p in Model.Favorites)
+            {
+                <li>@p.Name</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <h3>You have no favorites...GET SOME!</h3>
+    }
+    <br />
+    <br />
+    <div class="sasquatchSocks">
+        Tickets
+    </div>
+    @if (Model.Tickets.Any())
+    {
+        <ul>
+            @foreach (Ticket t in Model.Tickets)
+            {
+                <li>@t.Event</li>
+                    <ul>
+                        <li>Quantity:@t.Qunatity</li>
+                        <li>@t.Event.Date</li>
+                    </ul>
+            }
+        </ul>
+    }
+    else
+    {
+        <h3>You have no favorites...GET SOME!</h3>
+    }
+
+
+
+
+</div>
+
