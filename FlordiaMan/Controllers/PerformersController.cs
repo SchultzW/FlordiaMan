@@ -206,16 +206,23 @@ namespace FlordiaMan.Controllers
         [HttpPost]
         public IActionResult PerformersHome(string searchText)
         {
-            if (letterNumRegEx.IsMatch(searchText))
+            try
             {
-                var results = (from p in pRepo.Performers
-                               where p.Name.Contains(searchText)
-                               select p).ToList();
+                if (letterNumRegEx.IsMatch(searchText))
+                {
+                    var results = (from p in pRepo.Performers
+                                   where p.Name.Contains(searchText)
+                                   select p).ToList();
 
-                return View("SearchResult", results);
+                    return View("SearchResult", results);
+                }
+                else
+                    return View("error");
             }
-            else
+            catch
+            {
                 return View("error");
+            }  
         }
     }
 }
