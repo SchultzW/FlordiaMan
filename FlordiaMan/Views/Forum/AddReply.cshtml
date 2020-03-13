@@ -12,6 +12,7 @@
         <div asp-validation-summary="All">
             <div class="form-group">
                 <label for="Text">Reply Text:</label>
+                <div><span asp-validation-for="Text"></span></div>
                 <textarea class="form-control col-6" name="Text"></textarea><br />
             </div>
             <input type="hidden" value="@ViewBag.id" />

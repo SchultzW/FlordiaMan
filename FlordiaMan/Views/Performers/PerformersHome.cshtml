@@ -4,7 +4,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>PerformersHome</h1>
+<div class="searchBar">
+    <form class="searchBar" method="post">
+        <div class="sasquatchSocks RoadRage">Search:</div>
+        <input for="searchText" name="searchText" placeholder="Search" />
+        <button class="btn" value="search" name="command" type="submit">Go</button>
+    </form>
+</div>
+
 @if(Model!=null)
 {
 <div class="grid">
@@ -16,7 +23,7 @@
                     <img src="@p.ImgUrl" class="" />
                 </div>
                 <div class="card__content">
-                    <p class="product__description freakshowText">
+                    <p class="product__description sasquatchSocks">
                         @p.Name
                     </p>
                    

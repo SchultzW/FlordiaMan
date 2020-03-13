@@ -8,16 +8,20 @@ using Microsoft.EntityFrameworkCore;
 using FlordiaMan.Data;
 using FlordiaMan.Models;
 using FlordiaMan.Repo.RepoForTest;
+using Microsoft.AspNetCore.Identity;
+using System.Text.RegularExpressions;
 
 namespace FlordiaMan.Controllers
 {
     public class PerformersController : Controller
     {
+        Regex letterNumRegEx = new Regex(@"^[a-zA-Z0-9]+$");
         private readonly ApplicationDbContext _context;
         private IPerformerRepo pRepo;
-
-        public PerformersController(ApplicationDbContext context,IPerformerRepo p)
+        private UserManager<AppUser> userManager;
+        public PerformersController(ApplicationDbContext context,IPerformerRepo p, UserManager<AppUser> uManager)
         {
+            userManager = uManager;
             pRepo = p;
             _context = context;
         }
@@ -177,6 +181,41 @@ namespace FlordiaMan.Controllers
             {
                 return View("error");
             }
+        }
+        [HttpPost]
+        public async Task<IActionResult> PerformerDetailsAsync(int id, string command)
+        {
+            var user = await userManager.GetUserAsync(User);
+            Performer performer = (from p in pRepo.Performers
+                                   where p.Id == id
+                                   select p).FirstOrDefault();
+            if (command == "add")
+            {
+                
+                user.Favorites.Add(performer);
+                
+            }
+            else if(command=="remove")
+            {
+                user.Favorites.Remove(performer);
+                return View("PerformersHome");
+            }
+       
+            return View("Error");
+        }
+        [HttpPost]
+        public IActionResult PerformersHome(string searchText)
+        {
+            if (letterNumRegEx.IsMatch(searchText))
+            {
+                var results = (from p in pRepo.Performers
+                               where p.Name.Contains(searchText)
+                               select p).ToList();
+
+                return View("SearchResult", results);
+            }
+            else
+                return View("error");
         }
     }
 }

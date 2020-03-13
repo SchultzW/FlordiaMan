@@ -270,3 +270,29 @@ AboutText {
 .text{
     color:white;
 }
+.AboutImg {
+    height: inherit;
+    width: inherit;
+}
+
+.span4 img {
+    margin-right: 10px;
+}
+
+.span4 .img-left {
+    float: left;
+}
+
+.span4 .img-right {
+    float: right;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.myImg{
+    width:415px;
+    height:311px;
+}

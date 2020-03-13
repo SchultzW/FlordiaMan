@@ -22,7 +22,7 @@ namespace FlordiaMan.Data
 
                 Performer p = new Performer();
                 //p.Id = 1;
-                p.ImgUrl = "~/img/skeeter.jpg";
+                p.ImgUrl = "/img/skeeter.jpg";
                 p.Bio = "Current UFGRU Chamption";
                 p.Name = "Cletus";
                 p.News.Add(n);
@@ -30,14 +30,14 @@ namespace FlordiaMan.Data
                 context.SaveChanges();
 
                 Performer p2 = new Performer();
-                p2.ImgUrl = "~img/bros.jpg";
+                p2.ImgUrl = "/img/bros.jpg";
                 p2.Bio = "Tag team extrodinar from deep in the panhandle";
                 p2.Name = "The Horse Boys";
                 
                 context.Performer.Add(p);
                 context.SaveChanges();
                 Performer p3 = new Performer();
-                p3.ImgUrl = "~img/BigBessie.jpg";
+                p3.ImgUrl = "/img/BigBessie.jpg";
                 p3.Bio = "Fan favorite undefeated gator";
                 p3.Name = "Big Bessie";
                 

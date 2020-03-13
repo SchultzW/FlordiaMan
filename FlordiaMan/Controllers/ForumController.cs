@@ -10,6 +10,7 @@ using FlordiaMan.Models;
 using FlordiaMan.Repo.RepoForTest;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace FlordiaMan.Controllers
 {
@@ -180,13 +181,16 @@ namespace FlordiaMan.Controllers
        {
             try
             {
-                
-                AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
-                pRepo.AddReply(text, id, user);
-                return View();
+                if(ModelState.GetValidationState(nameof(text))== ModelValidationState.Valid)
+                {
+                    AppUser user = await userManager.FindByNameAsync(User.Identity.Name);
+                    pRepo.AddReply(text, id, user);
+                    return View();
 
-                
-              
+                }
+                return View("Error");
+
+
             }
             catch
             {
@@ -201,14 +205,19 @@ namespace FlordiaMan.Controllers
        [HttpPost]
        public async Task<IActionResult> AddPostAsync(String postText, String postTopic)
        {
-            Post p = new Post
+            if (ModelState.GetValidationState(nameof(postText)) == ModelValidationState.Valid)
             {
-                PostTopic = postTopic,
-                PostText = postText,
-                Op = await userManager.GetUserAsync(User)
-            };
-            pRepo.AddPost(p);
-            return View();
+                Post p = new Post
+                {
+                    PostTopic = postTopic,
+                    PostText = postText,
+                    Op = await userManager.GetUserAsync(User)
+                };
+                pRepo.AddPost(p);
+                return View();
+            }
+            else
+                return View("error");
        }
         
     }
