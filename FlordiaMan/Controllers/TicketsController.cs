@@ -184,29 +184,34 @@ namespace FlordiaMan.Controllers
         [HttpPost]
         public async Task<IActionResult> BuyTicketAsync(int id, int quantity)
         {
-            try
+            if(quantity!=0)
             {
-                Event e = eRepo.GetEventById(id);
-                var user = await userManager.GetUserAsync(User);
-                
+                try
+                {
+                    Event e = eRepo.GetEventById(id);
+                    var user = await userManager.GetUserAsync(User);
 
-                Ticket t = new Ticket();
-                t.Event = e;
-                t.Qunatity = quantity;
-                t.Customer = user;
 
-                tRepo.AddTicket(t);
-                await CreateEmailAsync(user, e, quantity);
-                return View("Confirm");
+                    Ticket t = new Ticket();
+                    t.EDateTime = e.Date;
+                    t.EventName = e.Name;
+                    t.Qunatity = quantity;
+                    t.Customer = user;
+
+                    tRepo.AddTicket(t);
+                    await CreateEmailAsync(user, e, quantity);
+                    return View("Confirm");
+                }
+                catch
+                {
+                   
+                }
             }
-            catch
-            {
-                return View("error");
-            }
-          
-            
-               
-            
+            return View("error");
+
+
+
+
         }
         public async Task<bool> CreateEmailAsync(AppUser user, Event e, int quantity)
         {

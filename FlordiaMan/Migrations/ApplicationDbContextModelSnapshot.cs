@@ -4,16 +4,14 @@ using FlordiaMan.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace FlordiaMan.Data.Migrations
+namespace FlordiaMan.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200212005008_2-11-2020")]
-    partial class _2112020
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,6 +45,9 @@ namespace FlordiaMan.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Placement")
                         .HasColumnType("int");
 
                     b.Property<int?>("WinnerId")
@@ -118,6 +119,56 @@ namespace FlordiaMan.Data.Migrations
                     b.ToTable("Performer");
                 });
 
+            modelBuilder.Entity("FlordiaMan.Models.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("OpId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PostText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostTopic")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OpId");
+
+                    b.ToTable("Post");
+                });
+
+            modelBuilder.Entity("FlordiaMan.Models.Reply", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reply");
+                });
+
             modelBuilder.Entity("FlordiaMan.Models.Ticket", b =>
                 {
                     b.Property<int>("Id")
@@ -128,8 +179,11 @@ namespace FlordiaMan.Data.Migrations
                     b.Property<string>("CustomerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int?>("EventId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("EDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EventName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Qunatity")
                         .HasColumnType("int");
@@ -137,8 +191,6 @@ namespace FlordiaMan.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("EventId");
 
                     b.ToTable("Ticket");
                 });
@@ -292,12 +344,10 @@ namespace FlordiaMan.Data.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -334,12 +384,10 @@ namespace FlordiaMan.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -354,7 +402,13 @@ namespace FlordiaMan.Data.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
 
                     b.HasDiscriminator().HasValue("AppUser");
                 });
@@ -388,15 +442,29 @@ namespace FlordiaMan.Data.Migrations
                         .HasForeignKey("MatchId");
                 });
 
+            modelBuilder.Entity("FlordiaMan.Models.Post", b =>
+                {
+                    b.HasOne("FlordiaMan.Models.AppUser", "Op")
+                        .WithMany()
+                        .HasForeignKey("OpId");
+                });
+
+            modelBuilder.Entity("FlordiaMan.Models.Reply", b =>
+                {
+                    b.HasOne("FlordiaMan.Models.Post", null)
+                        .WithMany("Replies")
+                        .HasForeignKey("PostId");
+
+                    b.HasOne("FlordiaMan.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("FlordiaMan.Models.Ticket", b =>
                 {
                     b.HasOne("FlordiaMan.Models.AppUser", "Customer")
                         .WithMany("Tickets")
                         .HasForeignKey("CustomerId");
-
-                    b.HasOne("FlordiaMan.Models.Event", "Event")
-                        .WithMany()
-                        .HasForeignKey("EventId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

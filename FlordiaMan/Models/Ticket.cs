@@ -8,7 +8,8 @@ namespace FlordiaMan.Models
     public class Ticket
     {
         public int Id { get; set; }
-        public Event Event { get; set; }
+        public string EventName { get; set; }
+        public DateTime EDateTime { get; set; }
         public AppUser Customer { get; set; }
         public int Qunatity { get; set; }
     }

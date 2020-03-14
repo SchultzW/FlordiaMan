@@ -10,7 +10,7 @@ namespace FlordiaMan.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        
         [RegularExpression(@"^(?<firstchar>(?=[A-Za-z]))((?<alphachars>[A-Za-z])|(?<specialchars>[A-Za-z]['-](?=[A-Za-z]))|(?<spaces> (?=[A-Za-z])))*$")]
         public string PostTopic { get; set; }
         public AppUser Op { get; set; }

@@ -34,14 +34,14 @@ namespace FlordiaMan.Data
                 p2.Bio = "Tag team extrodinar from deep in the panhandle";
                 p2.Name = "The Horse Boys";
                 
-                context.Performer.Add(p);
+                context.Performer.Add(p2);
                 context.SaveChanges();
                 Performer p3 = new Performer();
                 p3.ImgUrl = "/img/BigBessie.jpg";
                 p3.Bio = "Fan favorite undefeated gator";
                 p3.Name = "Big Bessie";
                 
-                context.Performer.Add(p);
+                context.Performer.Add(p3);
                 context.SaveChanges();
 
                 Match m = new Match();

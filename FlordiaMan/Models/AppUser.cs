@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FlordiaMan.Data;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +10,9 @@ namespace FlordiaMan.Models
 {
     public class AppUser:IdentityUser
     {
+        private ApplicationDbContext context;
+
+
         private List<Performer> favorites = new List<Performer>();
         private List<Ticket> tickets = new List<Ticket>();
 
@@ -23,6 +27,13 @@ namespace FlordiaMan.Models
         [Required(ErrorMessage = "Please enter a password that is at least 8 characters")]
         [StringLength(60, MinimumLength = 8)]
         public string Password { get; set; }
+
+        public void AddFav(Performer p)
+        {
+            favorites.Add(p);
+            context.Update(favorites);
+            context.SaveChanges();
+        }
 
     }
 }

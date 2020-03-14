@@ -193,7 +193,7 @@ namespace FlordiaMan.Controllers
             {
                 
                 user.Favorites.Add(performer);
-                
+                return View("PerformersHome");
             }
             else if(command=="remove")
             {

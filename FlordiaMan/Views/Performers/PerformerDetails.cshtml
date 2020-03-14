@@ -29,10 +29,16 @@
     </div>
 </div>
 <div>
+    <div>
+        <form method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button type="submit" name="command" value="add"> Add to Favorites</button>
+            <br />
+            <button type="submit" name="command" value="remove"> Remove to Favorites</button>
+        </form>
+    </div>
     <a asp-action="PerformerDetails" asp-route-id="@Model.Id">
-        <button type="submit" name="command" value="add"> Add to Favorites</button>
-        <br />
-        <button type="submit" name="command" value="remove"> Remove to Favorites</button>
+        
     </a>
     <h4 class="sasquatchSocks RoadRage">News</h4>
     @if (Model.News.Any())
